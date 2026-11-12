@@ -101,3 +101,40 @@ print("Training accuracy:", rf_model.score(
 print("Testing accuracy:", rf_model.score(
     X_test_transformed, y_test
 ))
+
+
+models = {
+    "Naive Bayes": nb_model,
+    "Logistic Regression": lr_model,
+    "Random Forest": rf_model
+}
+
+for name, model in models.items():
+
+    y_pred = model.predict(X_test_transformed)
+
+    print(f"\n{name}")
+    print("-" * 40)
+
+    print("Accuracy:", accuracy_score(y_test, y_pred))
+    print("Precision:", precision_score(y_test, y_pred))
+    print("Recall:", recall_score(y_test, y_pred))
+    print("F1 Score:", f1_score(y_test, y_pred))
+
+
+from sklearn.metrics import confusion_matrix
+
+for name, model in models.items():
+
+    y_pred = model.predict(X_test_transformed)
+
+    cm = confusion_matrix(y_test, y_pred)
+
+    print(f"\n{name} Confusion Matrix:")
+    print(cm)
+
+
+# Save the best-performing model
+joblib.dump(lr_model, "models/best_model.pkl")
+
+print("\nBest model saved successfully!")
